@@ -40,12 +40,13 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
         <script src="js/leaflet-measure.js"></script>
-        <script src="data/KH_SK_6624_2021_2.js"></script>
-        <script src="data/PIPPIB_20232_3.js"></script>
+        <script src="data/KawasanHutanSK6624Tahun2021_2.js"></script>
+        <script src="data/PIPPIBTahun2023Periode2_3.js"></script>
+        <script src="data/HPLBankTanah_4.js"></script>
         <script>
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:9
-        }).fitBounds([[-2.2617881709939884,119.55458540254662],[-1.0898056788077919,121.46035799863293]]);
+        }).fitBounds([[-2.2617881709939884,119.58008590970343],[-1.0898056788077919,121.43485749147592]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -121,11 +122,11 @@
         });
         layer_GoogleRoad_1;
         map.addLayer(layer_GoogleRoad_1);
-        function pop_KH_SK_6624_2021_2(feature, layer) {
+        function pop_KawasanHutanSK6624Tahun2021_2(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
                         <th scope="row">Kawasan</th>\
-                        <td class="visible-with-data" id="Kawasan">' + (feature.properties['Kawasan'] !== null ? autolinker.link(feature.properties['Kawasan'].toLocaleString()) : '') + '</td>\
+                        <td>' + (feature.properties['Kawasan'] !== null ? autolinker.link(feature.properties['Kawasan'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['Catatan'] !== null ? autolinker.link(feature.properties['Catatan'].toLocaleString()) : '') + '</td>\
@@ -138,11 +139,11 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_KH_SK_6624_2021_2_0(feature) {
+        function style_KawasanHutanSK6624Tahun2021_2_0(feature) {
             switch(String(feature.properties['Kawasan'])) {
                 case 'HL':
                     return {
-                pane: 'pane_KH_SK_6624_2021_2',
+                pane: 'pane_KawasanHutanSK6624Tahun2021_2',
                 stroke: false, 
                 fill: true,
                 fillOpacity: 1,
@@ -152,7 +153,7 @@
                     break;
                 case 'HP':
                     return {
-                pane: 'pane_KH_SK_6624_2021_2',
+                pane: 'pane_KawasanHutanSK6624Tahun2021_2',
                 stroke: false, 
                 fill: true,
                 fillOpacity: 1,
@@ -162,7 +163,7 @@
                     break;
                 case 'HPK':
                     return {
-                pane: 'pane_KH_SK_6624_2021_2',
+                pane: 'pane_KawasanHutanSK6624Tahun2021_2',
                 stroke: false, 
                 fill: true,
                 fillOpacity: 1,
@@ -172,7 +173,7 @@
                     break;
                 case 'HPT':
                     return {
-                pane: 'pane_KH_SK_6624_2021_2',
+                pane: 'pane_KawasanHutanSK6624Tahun2021_2',
                 stroke: false, 
                 fill: true,
                 fillOpacity: 1,
@@ -182,7 +183,7 @@
                     break;
                 case 'KSA/KPA':
                     return {
-                pane: 'pane_KH_SK_6624_2021_2',
+                pane: 'pane_KawasanHutanSK6624Tahun2021_2',
                 stroke: false, 
                 fill: true,
                 fillOpacity: 1,
@@ -192,7 +193,7 @@
                     break;
                 case 'KSA/KPA AIR':
                     return {
-                pane: 'pane_KH_SK_6624_2021_2',
+                pane: 'pane_KawasanHutanSK6624Tahun2021_2',
                 stroke: false, 
                 fill: true,
                 fillOpacity: 1,
@@ -202,7 +203,7 @@
                     break;
                 case 'TUBUH AIR':
                     return {
-                pane: 'pane_KH_SK_6624_2021_2',
+                pane: 'pane_KawasanHutanSK6624Tahun2021_2',
                 stroke: false, 
                 fill: true,
                 fillOpacity: 1,
@@ -212,25 +213,25 @@
                     break;
             }
         }
-        map.createPane('pane_KH_SK_6624_2021_2');
-        map.getPane('pane_KH_SK_6624_2021_2').style.zIndex = 402;
-        map.getPane('pane_KH_SK_6624_2021_2').style['mix-blend-mode'] = 'normal';
-        var layer_KH_SK_6624_2021_2 = new L.geoJson(json_KH_SK_6624_2021_2, {
+        map.createPane('pane_KawasanHutanSK6624Tahun2021_2');
+        map.getPane('pane_KawasanHutanSK6624Tahun2021_2').style.zIndex = 402;
+        map.getPane('pane_KawasanHutanSK6624Tahun2021_2').style['mix-blend-mode'] = 'normal';
+        var layer_KawasanHutanSK6624Tahun2021_2 = new L.geoJson(json_KawasanHutanSK6624Tahun2021_2, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_KH_SK_6624_2021_2',
-            layerName: 'layer_KH_SK_6624_2021_2',
-            pane: 'pane_KH_SK_6624_2021_2',
-            onEachFeature: pop_KH_SK_6624_2021_2,
-            style: style_KH_SK_6624_2021_2_0,
+            dataVar: 'json_KawasanHutanSK6624Tahun2021_2',
+            layerName: 'layer_KawasanHutanSK6624Tahun2021_2',
+            pane: 'pane_KawasanHutanSK6624Tahun2021_2',
+            onEachFeature: pop_KawasanHutanSK6624Tahun2021_2,
+            style: style_KawasanHutanSK6624Tahun2021_2_0,
         });
-        bounds_group.addLayer(layer_KH_SK_6624_2021_2);
-        map.addLayer(layer_KH_SK_6624_2021_2);
-        function pop_PIPPIB_20232_3(feature, layer) {
+        bounds_group.addLayer(layer_KawasanHutanSK6624Tahun2021_2);
+        map.addLayer(layer_KawasanHutanSK6624Tahun2021_2);
+        function pop_PIPPIBTahun2023Periode2_3(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
                         <th scope="row">PIPPIB</th>\
-                        <td class="visible-with-data" id="PIPPIB">' + (feature.properties['PIPPIB'] !== null ? autolinker.link(feature.properties['PIPPIB'].toLocaleString()) : '') + '</td>\
+                        <td>' + (feature.properties['PIPPIB'] !== null ? autolinker.link(feature.properties['PIPPIB'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['Catatan'] !== null ? autolinker.link(feature.properties['Catatan'].toLocaleString()) : '') + '</td>\
@@ -243,7 +244,7 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        var pattern_PIPPIB_20232_3_0 = new L.StripePattern({
+        var pattern_PIPPIBTahun2023Periode2_3_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#000000',
@@ -251,8 +252,8 @@
             spaceOpacity: 0,
             angle: 315
         });
-        pattern_PIPPIB_20232_3_0.addTo(map);
-        var pattern_PIPPIB_20232_3_0 = new L.StripePattern({
+        pattern_PIPPIBTahun2023Periode2_3_0.addTo(map);
+        var pattern_PIPPIBTahun2023Periode2_3_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#000000',
@@ -260,8 +261,8 @@
             spaceOpacity: 0,
             angle: 360
         });
-        pattern_PIPPIB_20232_3_0.addTo(map);
-        var pattern_PIPPIB_20232_3_0 = new L.StripePattern({
+        pattern_PIPPIBTahun2023Periode2_3_0.addTo(map);
+        var pattern_PIPPIBTahun2023Periode2_3_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#000000',
@@ -269,8 +270,8 @@
             spaceOpacity: 0,
             angle: 315
         });
-        pattern_PIPPIB_20232_3_0.addTo(map);
-        var pattern_PIPPIB_20232_3_0 = new L.StripePattern({
+        pattern_PIPPIBTahun2023Periode2_3_0.addTo(map);
+        var pattern_PIPPIBTahun2023Periode2_3_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#000000',
@@ -278,34 +279,34 @@
             spaceOpacity: 0,
             angle: 360
         });
-        pattern_PIPPIB_20232_3_0.addTo(map);
-        function style_PIPPIB_20232_3_0(feature) {
+        pattern_PIPPIBTahun2023Periode2_3_0.addTo(map);
+        function style_PIPPIBTahun2023Periode2_3_0(feature) {
             switch(String(feature.properties['PIPPIB'])) {
                 case 'PIPPIB Kawasan':
                     return {
-                pane: 'pane_PIPPIB_20232_3',
+                pane: 'pane_PIPPIBTahun2023Periode2_3',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_PIPPIB_20232_3_0,
+                fillPattern: pattern_PIPPIBTahun2023Periode2_3_0,
                 interactive: true,
             }
                     break;
                 case 'PIPPIB Primer':
                     return {
-                pane: 'pane_PIPPIB_20232_3',
+                pane: 'pane_PIPPIBTahun2023Periode2_3',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_PIPPIB_20232_3_0,
+                fillPattern: pattern_PIPPIBTahun2023Periode2_3_0,
                 interactive: true,
             }
                     break;
             }
         }
-        function style_PIPPIB_20232_3_1(feature) {
+        function style_PIPPIBTahun2023Periode2_3_1(feature) {
             switch(String(feature.properties['PIPPIB'])) {
                 case 'PIPPIB Kawasan':
                     return {
-                pane: 'pane_PIPPIB_20232_3',
+                pane: 'pane_PIPPIBTahun2023Periode2_3',
                 opacity: 1,
                 color: 'rgba(0,0,0,1.0)',
                 dashArray: '',
@@ -318,7 +319,7 @@
                     break;
                 case 'PIPPIB Primer':
                     return {
-                pane: 'pane_PIPPIB_20232_3',
+                pane: 'pane_PIPPIBTahun2023Periode2_3',
                 opacity: 1,
                 color: 'rgba(0,0,0,1.0)',
                 dashArray: '',
@@ -331,20 +332,65 @@
                     break;
             }
         }
-        map.createPane('pane_PIPPIB_20232_3');
-        map.getPane('pane_PIPPIB_20232_3').style.zIndex = 403;
-        map.getPane('pane_PIPPIB_20232_3').style['mix-blend-mode'] = 'normal';
-        var layer_PIPPIB_20232_3 = new L.geoJson.multiStyle(json_PIPPIB_20232_3, {
+        map.createPane('pane_PIPPIBTahun2023Periode2_3');
+        map.getPane('pane_PIPPIBTahun2023Periode2_3').style.zIndex = 403;
+        map.getPane('pane_PIPPIBTahun2023Periode2_3').style['mix-blend-mode'] = 'normal';
+        var layer_PIPPIBTahun2023Periode2_3 = new L.geoJson.multiStyle(json_PIPPIBTahun2023Periode2_3, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_PIPPIB_20232_3',
-            layerName: 'layer_PIPPIB_20232_3',
-            pane: 'pane_PIPPIB_20232_3',
-            onEachFeature: pop_PIPPIB_20232_3,
-            styles: [style_PIPPIB_20232_3_0,style_PIPPIB_20232_3_1,]
+            dataVar: 'json_PIPPIBTahun2023Periode2_3',
+            layerName: 'layer_PIPPIBTahun2023Periode2_3',
+            pane: 'pane_PIPPIBTahun2023Periode2_3',
+            onEachFeature: pop_PIPPIBTahun2023Periode2_3,
+            styles: [style_PIPPIBTahun2023Periode2_3_0,style_PIPPIBTahun2023Periode2_3_1,]
         });
-        bounds_group.addLayer(layer_PIPPIB_20232_3);
-        map.addLayer(layer_PIPPIB_20232_3);
+        bounds_group.addLayer(layer_PIPPIBTahun2023Periode2_3);
+        map.addLayer(layer_PIPPIBTahun2023Periode2_3);
+        function pop_HPLBankTanah_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">TIPEHAK</th>\
+                        <td>' + (feature.properties['TIPEHAK'] !== null ? autolinker.link(feature.properties['TIPEHAK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NIB</th>\
+                        <td>' + (feature.properties['NIB'] !== null ? autolinker.link(feature.properties['NIB'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_HPLBankTanah_4_0() {
+            return {
+                pane: 'pane_HPLBankTanah_4',
+                opacity: 1,
+                color: 'rgba(228,26,28,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_HPLBankTanah_4');
+        map.getPane('pane_HPLBankTanah_4').style.zIndex = 404;
+        map.getPane('pane_HPLBankTanah_4').style['mix-blend-mode'] = 'normal';
+        var layer_HPLBankTanah_4 = new L.geoJson(json_HPLBankTanah_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_HPLBankTanah_4',
+            layerName: 'layer_HPLBankTanah_4',
+            pane: 'pane_HPLBankTanah_4',
+            onEachFeature: pop_HPLBankTanah_4,
+            style: style_HPLBankTanah_4_0,
+        });
+        bounds_group.addLayer(layer_HPLBankTanah_4);
+        map.addLayer(layer_HPLBankTanah_4);
         var osmGeocoder = new L.Control.Geocoder({
             collapsed: true,
             position: 'topleft',
@@ -357,8 +403,9 @@
         .title += 'Search for a place';
         var baseMaps = {};
         var overlaysTree = [
-            {label: 'PIPPIB_2023-2<br /><table><tr><td style="text-align: center;"><img src="legend/PIPPIB_20232_3_PIPPIBKawasan0.png" /></td><td>PIPPIB Kawasan</td></tr><tr><td style="text-align: center;"><img src="legend/PIPPIB_20232_3_PIPPIBPrimer1.png" /></td><td>PIPPIB Primer</td></tr></table>', layer: layer_PIPPIB_20232_3},
-            {label: 'KH_SK_6624_2021<br /><table><tr><td style="text-align: center;"><img src="legend/KH_SK_6624_2021_2_HutanLindung0.png" /></td><td>Hutan Lindung</td></tr><tr><td style="text-align: center;"><img src="legend/KH_SK_6624_2021_2_HutanProduksi1.png" /></td><td>Hutan Produksi</td></tr><tr><td style="text-align: center;"><img src="legend/KH_SK_6624_2021_2_HutanProduksiKonversi2.png" /></td><td>Hutan Produksi Konversi</td></tr><tr><td style="text-align: center;"><img src="legend/KH_SK_6624_2021_2_HutanProduksiTerbatas3.png" /></td><td>Hutan Produksi Terbatas</td></tr><tr><td style="text-align: center;"><img src="legend/KH_SK_6624_2021_2_KawasanSuakaPelestarianAlam4.png" /></td><td>Kawasan Suaka / Pelestarian Alam</td></tr><tr><td style="text-align: center;"><img src="legend/KH_SK_6624_2021_2_KawasanSuakaPelestarianAlamAir5.png" /></td><td>Kawasan Suaka / Pelestarian Alam Air</td></tr><tr><td style="text-align: center;"><img src="legend/KH_SK_6624_2021_2_TUBUHAIR6.png" /></td><td>TUBUH AIR</td></tr></table>', layer: layer_KH_SK_6624_2021_2},
+            {label: '<img src="legend/HPLBankTanah_4.png" /> HPL Bank Tanah', layer: layer_HPLBankTanah_4},
+            {label: 'PIPPIB Tahun 2023 Periode 2<br /><table><tr><td style="text-align: center;"><img src="legend/PIPPIBTahun2023Periode2_3_PIPPIBKawasan0.png" /></td><td>PIPPIB Kawasan</td></tr><tr><td style="text-align: center;"><img src="legend/PIPPIBTahun2023Periode2_3_PIPPIBPrimer1.png" /></td><td>PIPPIB Primer</td></tr></table>', layer: layer_PIPPIBTahun2023Periode2_3},
+            {label: 'Kawasan Hutan SK 6624 Tahun 2021<br /><table><tr><td style="text-align: center;"><img src="legend/KawasanHutanSK6624Tahun2021_2_HutanLindung0.png" /></td><td>Hutan Lindung</td></tr><tr><td style="text-align: center;"><img src="legend/KawasanHutanSK6624Tahun2021_2_HutanProduksi1.png" /></td><td>Hutan Produksi</td></tr><tr><td style="text-align: center;"><img src="legend/KawasanHutanSK6624Tahun2021_2_HutanProduksiKonversi2.png" /></td><td>Hutan Produksi Konversi</td></tr><tr><td style="text-align: center;"><img src="legend/KawasanHutanSK6624Tahun2021_2_HutanProduksiTerbatas3.png" /></td><td>Hutan Produksi Terbatas</td></tr><tr><td style="text-align: center;"><img src="legend/KawasanHutanSK6624Tahun2021_2_KawasanSuakaPelestarianAlam4.png" /></td><td>Kawasan Suaka / Pelestarian Alam</td></tr><tr><td style="text-align: center;"><img src="legend/KawasanHutanSK6624Tahun2021_2_KawasanSuakaPelestarianAlamAir5.png" /></td><td>Kawasan Suaka / Pelestarian Alam Air</td></tr><tr><td style="text-align: center;"><img src="legend/KawasanHutanSK6624Tahun2021_2_TUBUHAIR6.png" /></td><td>TUBUH AIR</td></tr></table>', layer: layer_KawasanHutanSK6624Tahun2021_2},
             {label: "Google Road", layer: layer_GoogleRoad_1},
             {label: "Google Hybrid", layer: layer_GoogleHybrid_0},]
         var lay = L.control.layers.tree(null, overlaysTree,{
@@ -372,15 +419,15 @@
         });
         lay.addTo(map);
         setBounds();
-        resetLabels([layer_KH_SK_6624_2021_2,layer_PIPPIB_20232_3]);
+        resetLabels([layer_KawasanHutanSK6624Tahun2021_2,layer_PIPPIBTahun2023Periode2_3]);
         map.on("zoomend", function(){
-            resetLabels([layer_KH_SK_6624_2021_2,layer_PIPPIB_20232_3]);
+            resetLabels([layer_KawasanHutanSK6624Tahun2021_2,layer_PIPPIBTahun2023Periode2_3]);
         });
         map.on("layeradd", function(){
-            resetLabels([layer_KH_SK_6624_2021_2,layer_PIPPIB_20232_3]);
+            resetLabels([layer_KawasanHutanSK6624Tahun2021_2,layer_PIPPIBTahun2023Periode2_3]);
         });
         map.on("layerremove", function(){
-            resetLabels([layer_KH_SK_6624_2021_2,layer_PIPPIB_20232_3]);
+            resetLabels([layer_KawasanHutanSK6624Tahun2021_2,layer_PIPPIBTahun2023Periode2_3]);
         });
         </script>
     </body>
