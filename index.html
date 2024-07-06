@@ -1,61 +1,95 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="stylesheet" href="css/leaflet.css">
-    <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
-    <link rel="stylesheet" href="css/L.Control.Locate.min.css">
-    <link rel="stylesheet" href="css/qgis2web.css">
-    <link rel="stylesheet" href="css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
-    <link rel="stylesheet" href="css/leaflet-measure.css">
-    <style>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
+        <link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
         html, body, #map {
             width: 100%;
             height: 100%;
             padding: 0;
             margin: 0;
         }
-    </style>
-    <title>WebGIS Anda</title>
-</head>
-<body>
-    <div id="map"></div>
-    <input type="file" id="file-input" accept=".zip" style="position: absolute; top: 10px; left: 10px; z-index: 1000;" />
-    <script src="js/qgis2web_expressions.js"></script>
-    <script src="js/leaflet.js"></script>
-    <script src="js/L.Control.Layers.Tree.min.js"></script>
-    <script src="js/L.Control.Locate.min.js"></script>
-    <script src="js/multi-style-layer.js"></script>
-    <script src="js/leaflet.rotatedMarker.js"></script>
-    <script src="js/leaflet.pattern.js"></script>
-    <script src="js/leaflet-hash.js"></script>
-    <script src="js/Autolinker.min.js"></script>
-    <script src="js/rbush.min.js"></script>
-    <script src="js/labelgun.min.js"></script>
-    <script src="js/labels.js"></script>
-    <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
-    <script src="js/leaflet-measure.js"></script>
-    <script src="https://unpkg.com/shapefile@0.6.6/shapefile.js"></script>
-    <script src="https://unpkg.com/leaflet.filelayer"></script>
-    <script src="data/KH_SK_6624_2021_2.js"></script>
-    <script src="data/PIPPIB_20232_3.js"></script>
-    <script>
+        #upload-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map"></div>
+        <div id="upload-container">
+            <input type="file" id="upload" accept=".zip">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/L.Control.Layers.Tree.min.js"></script>
+        <script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="https://unpkg.com/shpjs@latest/dist/shp.min.js"></script>
+        <script src="data/KH_SK_6624_2021_2.js"></script>
+        <script src="data/PIPPIB_20232_3.js"></script>
+        <script>
         var map = L.map('map', {
-            zoomControl: false,
-            maxZoom: 28,
-            minZoom: 1
-        }).fitBounds([[-2.2617881709939884, 119.55458540254662], [-1.0898056788077919, 121.46035799863293]]);
-        
+            zoomControl:false, maxZoom:28, minZoom:1
+        }).fitBounds([[-2.2617881709939884,119.55458540254662],[-1.0898056788077919,121.46035799863293]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
-        
-        var autolinker = new Autolinker({ truncate: { length: 30, location: 'smart' } });
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
 
+        // File upload handling
+        document.getElementById('upload').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    shp(event.target.result).then(function(geojson) {
+                        var layer = L.geoJson(geojson, {
+                            onEachFeature: function(feature, layer) {
+                                if (feature.properties) {
+                                    var popupContent = '<table>';
+                                    for (var key in feature.properties) {
+                                        popupContent += '<tr><th>' + key + '</th><td>' + feature.properties[key] + '</td></tr>';
+                                    }
+                                    popupContent += '</table>';
+                                    layer.bindPopup(popupContent);
+                                }
+                            }
+                        }).addTo(map);
+                        map.fitBounds(layer.getBounds());
+                    });
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
+
+        // remove popup's row if "visible-with-data"
         function removeEmptyRowsFromPopupContent(content, feature) {
             var tempDiv = document.createElement('div');
             tempDiv.innerHTML = content;
@@ -70,11 +104,13 @@
             return tempDiv.innerHTML;
         }
 
+        // add class to format popup if it contains media
         function addClassToPopupIfMedia(content, popup) {
             var tempDiv = document.createElement('div');
             tempDiv.innerHTML = content;
             if (tempDiv.querySelector('td img')) {
                 popup._contentNode.classList.add('media');
+                // Delay to force the redraw
                 setTimeout(function() {
                     popup.update();
                 }, 10);
@@ -86,9 +122,7 @@
         var zoomControl = L.control.zoom({
             position: 'topleft'
         }).addTo(map);
-
-        L.control.locate({ locateOptions: { maxZoom: 19 } }).addTo(map);
-
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
         var measureControl = new L.Control.Measure({
             position: 'topleft',
             primaryLengthUnit: 'meters',
@@ -99,12 +133,10 @@
         measureControl.addTo(map);
         document.getElementsByClassName('leaflet-control-measure-toggle')[0].innerHTML = '';
         document.getElementsByClassName('leaflet-control-measure-toggle')[0].className += ' fas fa-ruler';
-
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
             map.setMaxBounds(map.getBounds());
         }
-
         map.createPane('pane_GoogleHybrid_0');
         map.getPane('pane_GoogleHybrid_0').style.zIndex = 400;
         var layer_GoogleHybrid_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
@@ -117,7 +149,6 @@
             maxNativeZoom: 18
         });
         map.addLayer(layer_GoogleHybrid_0);
-
         map.createPane('pane_GoogleRoad_1');
         map.getPane('pane_GoogleRoad_1').style.zIndex = 401;
         var layer_GoogleRoad_1 = L.tileLayer('https://mt0.google.com/vt/lyrs=h&x={x}&y={y}&z={z}', {
@@ -133,14 +164,14 @@
 
         function pop_KH_SK_6624_2021_2(feature, layer) {
             var popupContent = '<table>\
-                <tr>\
-                    <th scope="row">Kawasan</th>\
-                    <td class="visible-with-data" id="Kawasan">' + (feature.properties['Kawasan'] !== null ? autolinker.link(feature.properties['Kawasan'].toLocaleString()) : '') + '</td>\
-                </tr>\
-                <tr>\
-                    <td colspan="2">' + (feature.properties['Catatan'] !== null ? autolinker.link(feature.properties['Catatan'].toLocaleString()) : '') + '</td>\
-                </tr>\
-            </table>';
+                    <tr>\
+                        <th scope="row">Kawasan</th>\
+                        <td class="visible-with-data" id="Kawasan">' + (feature.properties['Kawasan'] !== null ? autolinker.link(feature.properties['Kawasan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Catatan'] !== null ? autolinker.link(feature.properties['Catatan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
             layer.on('popupopen', function(e) {
                 addClassToPopupIfMedia(content, e.popup);
@@ -149,492 +180,6 @@
         }
 
         function style_KH_SK_6624_2021_2_0(feature) {
-            switch (String(feature.properties['Kawasan'])) {
+            switch(String(feature.properties['Kawasan'])) {
                 case 'HL':
-                    return {
-                        pane: 'pane_KH_SK_6624_2021_2',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(51,160,44,0.5)',
-                        interactive: true,
-                    };
-                case 'HP':
-                    return {
-                        pane: 'pane_KH_SK_6624_2021_2',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(255,247,1,0.5)',
-                        interactive: true,
-                    };
-                case 'HPT':
-                    return {
-                        pane: 'pane_KH_SK_6624_2021_2',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(217,95,14,0.5)',
-                        interactive: true,
-                    };
-                case 'HPK':
-                    return {
-                        pane: 'pane_KH_SK_6624_2021_2',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(117,107,177,0.5)',
-                        interactive: true,
-                    };
-                case 'KSA/KPA':
-                    return {
-                        pane: 'pane_KH_SK_6624_2021_2',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(0,0,0,0.5)',
-                        interactive: true,
-                    };
-                case 'SM':
-                    return {
-                        pane: 'pane_KH_SK_6624_2021_2',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(165,15,21,0.5)',
-                        interactive: true,
-                    };
-                case 'TRM':
-                    return {
-                        pane: 'pane_KH_SK_6624_2021_2',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(224,243,248,0.5)',
-                        interactive: true,
-                    };
-                case 'UMUM':
-                    return {
-                        pane: 'pane_KH_SK_6624_2021_2',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(252,146,114,0.5)',
-                        interactive: true,
-                    };
-                case 'UPTD':
-                    return {
-                        pane: 'pane_KH_SK_6624_2021_2',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(204,75,178,0.5)',
-                        interactive: true,
-                    };
-                case 'WKS':
-                    return {
-                        pane: 'pane_KH_SK_6624_2021_2',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(255,255,255,0.5)',
-                        interactive: true,
-                    };
-                default:
-                    return {
-                        pane: 'pane_KH_SK_6624_2021_2',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(0,0,0,0.5)',
-                        interactive: true,
-                    };
-            }
-        }
-
-        map.createPane('pane_KH_SK_6624_2021_2');
-        map.getPane('pane_KH_SK_6624_2021_2').style.zIndex = 402;
-        map.getPane('pane_KH_SK_6624_2021_2').style['mix-blend-mode'] = 'normal';
-        var layer_KH_SK_6624_2021_2 = new L.geoJson(json_KH_SK_6624_2021_2, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_KH_SK_6624_2021_2',
-            layerName: 'layer_KH_SK_6624_2021_2',
-            pane: 'pane_KH_SK_6624_2021_2',
-            onEachFeature: pop_KH_SK_6624_2021_2,
-            style: style_KH_SK_6624_2021_2_0,
-        });
-        bounds_group.addLayer(layer_KH_SK_6624_2021_2);
-        map.addLayer(layer_KH_SK_6624_2021_2);
-
-        function pop_PIPPIB_20232_3(feature, layer) {
-            var popupContent = '<table>\
-                <tr>\
-                    <th scope="row">Peraturan</th>\
-                    <td class="visible-with-data" id="Peraturan">' + (feature.properties['Peraturan'] !== null ? autolinker.link(feature.properties['Peraturan'].toLocaleString()) : '') + '</td>\
-                </tr>\
-                <tr>\
-                    <td colspan="2">' + (feature.properties['Keterangan'] !== null ? autolinker.link(feature.properties['Keterangan'].toLocaleString()) : '') + '</td>\
-                </tr>\
-            </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-            layer.on('popupopen', function(e) {
-                addClassToPopupIfMedia(content, e.popup);
-            });
-            layer.bindPopup(content, { maxHeight: 400 });
-        }
-
-        function style_PIPPIB_20232_3_0(feature) {
-            switch (String(feature.properties['Keterangan'])) {
-                case 'B':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(0,0,0,0.5)',
-                        interactive: true,
-                    };
-                case 'H':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(224,243,248,0.5)',
-                        interactive: true,
-                    };
-                case 'K':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(51,160,44,0.5)',
-                        interactive: true,
-                    };
-                case 'KSK':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(252,146,114,0.5)',
-                        interactive: true,
-                    };
-                case 'L':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(117,107,177,0.5)',
-                        interactive: true,
-                    };
-                case 'P':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(255,247,1,0.5)',
-                        interactive: true,
-                    };
-                case 'PAC':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(165,15,21,0.5)',
-                        interactive: true,
-                    };
-                case 'PR':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(204,75,178,0.5)',
-                        interactive: true,
-                    };
-                case 'S':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(217,95,14,0.5)',
-                        interactive: true,
-                    };
-                case 'SNG':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(255,255,255,0.5)',
-                        interactive: true,
-                    };
-                case 'T':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(252,146,114,0.5)',
-                        interactive: true,
-                    };
-                case 'TA':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(51,160,44,0.5)',
-                        interactive: true,
-                    };
-                case 'TPE':
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(0,0,0,0.5)',
-                        interactive: true,
-                    };
-                default:
-                    return {
-                        pane: 'pane_PIPPIB_20232_3',
-                        stroke: false,
-                        fill: true,
-                        fillOpacity: 1,
-                        fillColor: 'rgba(0,0,0,0.5)',
-                        interactive: true,
-                    };
-            }
-        }
-
-        map.createPane('pane_PIPPIB_20232_3');
-        map.getPane('pane_PIPPIB_20232_3').style.zIndex = 403;
-        map.getPane('pane_PIPPIB_20232_3').style['mix-blend-mode'] = 'normal';
-        var layer_PIPPIB_20232_3 = new L.geoJson(json_PIPPIB_20232_3, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_PIPPIB_20232_3',
-            layerName: 'layer_PIPPIB_20232_3',
-            pane: 'pane_PIPPIB_20232_3',
-            onEachFeature: pop_PIPPIB_20232_3,
-            style: style_PIPPIB_20232_3_0,
-        });
-        bounds_group.addLayer(layer_PIPPIB_20232_3);
-        map.addLayer(layer_PIPPIB_20232_3);
-
-        map.addLayer(bounds_group);
-        setBounds();
-
-        map.on('zoomend', function() {
-            var currentZoom = map.getZoom();
-            if (currentZoom > 22) {
-                map.removeLayer(layer_GoogleRoad_1);
-                map.addLayer(layer_GoogleHybrid_0);
-            } else {
-                map.removeLayer(layer_GoogleHybrid_0);
-                map.addLayer(layer_GoogleRoad_1);
-            }
-        });
-
-        var baseMaps = {
-            "Google Hybrid": layer_GoogleHybrid_0,
-            "Google Road": layer_GoogleRoad_1,
-        };
-
-        L.control.layers(baseMaps, null, {
-            collapsed: true
-        }).addTo(map);
-
-        var overlays = {
-            "<img src='legend/KH_SK_6624_2021_2.png' width='20' height='20'>&nbsp;KH_SK_6624_2021_2": layer_KH_SK_6624_2021_2,
-            "<img src='legend/PIPPIB_20232_3.png' width='20' height='20'>&nbsp;PIPPIB_20232_3": layer_PIPPIB_20232_3,
-        };
-
-        L.control.layers.tree(baseMaps, overlays, {
-            collapsed: true,
-        }).addTo(map);
-
-        var icons = L.Icon.extend({
-            options: {
-                iconSize: [27, 27],
-                iconAnchor: [13, 27],
-                popupAnchor: [1, -24]
-            }
-        });
-
-        function pop_Sign_4(feature, layer) {
-            var popupContent = '<table>\
-                <tr>\
-                    <td>' + (feature.properties['Description'] !== null ? autolinker.link(feature.properties['Description'].toLocaleString()) : '') + '</td>\
-                </tr>\
-            </table>';
-            layer.bindPopup(popupContent);
-        }
-
-        function style_Sign_4_0() {
-            return {
-                pane: 'pane_Sign_4',
-                radius: 0.3333333333333333,
-                opacity: 1,
-                color: 'rgba(0,0,0,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(255,0,0,1.0)',
-                interactive: true,
-            };
-        }
-
-        map.createPane('pane_Sign_4');
-        map.getPane('pane_Sign_4').style.zIndex = 404;
-        map.getPane('pane_Sign_4').style['mix-blend-mode'] = 'normal';
-        var layer_Sign_4 = new L.geoJson(json_Sign_4, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_Sign_4',
-            layerName: 'layer_Sign_4',
-            pane: 'pane_Sign_4',
-            onEachFeature: pop_Sign_4,
-            pointToLayer: function(feature, latlng) {
-                var context = feature.properties['marker-symbol'];
-                if (context) {
-                    return L.marker(latlng, {
-                        icon: new icons({
-                            iconUrl: 'icons/' + context + '.png'
-                        })
-                    });
-                }
-            },
-            style: style_Sign_4_0,
-        });
-        bounds_group.addLayer(layer_Sign_4);
-        map.addLayer(layer_Sign_4);
-
-        map.addLayer(bounds_group);
-
-        var overlayMaps = {
-            "Sign_4": layer_Sign_4
-        };
-
-        L.control.layers(null, overlayMaps, {
-            collapsed: false
-        }).addTo(map);
-
-        var searchControl = new L.Control.Search({
-            layer: layer_KH_SK_6624_2021_2,
-            initial: false,
-            collapsed: true,
-            zoom: 18,
-            position: 'topright',
-            textPlaceholder: 'Search',
-            propertyName: 'Kawasan',
-        });
-        searchControl.on('search:locationfound', function(e) {
-            e.layer.openPopup();
-        });
-        map.addControl(searchControl);
-
-        var fileInput = document.getElementById('file-input');
-
-        fileInput.addEventListener('change', function(e) {
-            var file = e.target.files[0];
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var zip = new JSZip();
-                var loadedFile = reader.result;
-                zip.loadAsync(loadedFile).then(function(zip) {
-                    for (var key in zip.files) {
-                        if (zip.files[key].dir == false) {
-                            if (key.endsWith('.geojson')) {
-                                zip.files[key].async('string').then(function(fileData) {
-                                    var newDataLayer = L.geoJson(JSON.parse(fileData));
-                                    newDataLayer.addTo(map);
-                                    map.fitBounds(newDataLayer.getBounds());
-                                });
-                            }
-                        }
-                    }
-                });
-            };
-            reader.readAsArrayBuffer(file);
-        });
-
-        L.DomEvent.on(map, 'click', function() {
-            map.closePopup();
-        });
-
-        var LegendKHSK662420212_Legend = L.control({
-            position: 'bottomleft'
-        });
-
-        LegendKHSK662420212_Legend.onAdd = function(map) {
-            var div = L.DomUtil.create('div', 'LegendKHSK662420212');
-            div.innerHTML += '<img src="legend/KH_SK_6624_2021_2.png" alt="legend">';
-            return div;
-        };
-
-        LegendKHSK662420212_Legend.addTo(map);
-
-        var LegendPIPPIB202323_Legend = L.control({
-            position: 'bottomleft'
-        });
-
-        LegendPIPPIB202323_Legend.onAdd = function(map) {
-            var div = L.DomUtil.create('div', 'LegendPIPPIB202323');
-            div.innerHTML += '<img src="legend/PIPPIB_20232_3.png" alt="legend">';
-            return div;
-        };
-
-        LegendPIPPIB202323_Legend.addTo(map);
-
-        var Measure = L.control.measure({
-            position: 'topright',
-            primaryLengthUnit: 'meters',
-            secondaryLengthUnit: 'kilometers',
-            primaryAreaUnit: 'sqmeters',
-            secondaryAreaUnit: 'hectares'
-        });
-
-        Measure.addTo(map);
-
-        L.control.scale({
-            position: 'bottomleft',
-            maxWidth: 100,
-            metric: true,
-            imperial: false
-        }).addTo(map);
-
-        var googleRoadMutant = L.gridLayer.googleMutant({
-            type: 'roadmap' // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
-        });
-        map.addLayer(googleRoadMutant);
-
-        var miniMap = new L.Control.MiniMap(googleRoadMutant, {
-            toggleDisplay: true
-        }).addTo(map);
-
-        var lc = L.control.locate({
-            strings: {
-                title: "Show me where I am, yo!"
-            }
-        }).addTo(map);
-
-        L.easyPrint({
-            title: 'My awesome print button',
-            position: 'bottomleft',
-            elementsToHide: 'p, h2'
-        }).addTo(map);
-    </script>
-</body>
-</html>
+                    return
