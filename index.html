@@ -21,7 +21,7 @@
             margin: 0;
         }
     </style>
-    <title></title>
+    <title>WebGIS Anda</title>
 </head>
 <body>
     <div id="map"></div>
@@ -201,52 +201,52 @@
                         stroke: false,
                         fill: true,
                         fillOpacity: 1,
-                        fillColor: 'rgba(127,201,127,0.5)',
+                        fillColor: 'rgba(165,15,21,0.5)',
                         interactive: true,
                     };
-                case 'TN':
+                case 'TRM':
                     return {
                         pane: 'pane_KH_SK_6624_2021_2',
                         stroke: false,
                         fill: true,
                         fillOpacity: 1,
-                        fillColor: 'rgba(190,174,212,0.5)',
+                        fillColor: 'rgba(224,243,248,0.5)',
                         interactive: true,
                     };
-                case 'TB':
+                case 'UMUM':
                     return {
                         pane: 'pane_KH_SK_6624_2021_2',
                         stroke: false,
                         fill: true,
                         fillOpacity: 1,
-                        fillColor: 'rgba(253,192,134,0.5)',
+                        fillColor: 'rgba(252,146,114,0.5)',
                         interactive: true,
                     };
-                case 'TW':
+                case 'UPTD':
                     return {
                         pane: 'pane_KH_SK_6624_2021_2',
                         stroke: false,
                         fill: true,
                         fillOpacity: 1,
-                        fillColor: 'rgba(56,108,176,0.5)',
+                        fillColor: 'rgba(204,75,178,0.5)',
                         interactive: true,
                     };
-                case 'TWA':
+                case 'WKS':
                     return {
                         pane: 'pane_KH_SK_6624_2021_2',
                         stroke: false,
                         fill: true,
                         fillOpacity: 1,
-                        fillColor: 'rgba(240,2,127,0.5)',
+                        fillColor: 'rgba(255,255,255,0.5)',
                         interactive: true,
                     };
-                case 'TWA/TB':
+                default:
                     return {
                         pane: 'pane_KH_SK_6624_2021_2',
                         stroke: false,
                         fill: true,
                         fillOpacity: 1,
-                        fillColor: 'rgba(254,232,94,0.5)',
+                        fillColor: 'rgba(0,0,0,0.5)',
                         interactive: true,
                     };
             }
@@ -270,20 +270,11 @@
         function pop_PIPPIB_20232_3(feature, layer) {
             var popupContent = '<table>\
                 <tr>\
-                    <th scope="row">No. PIPPIB</th>\
-                    <td class="visible-with-data" id="No._PIPPIB">' + (feature.properties['No._PIPPIB'] !== null ? autolinker.link(feature.properties['No._PIPPIB'].toLocaleString()) : '') + '</td>\
+                    <th scope="row">Peraturan</th>\
+                    <td class="visible-with-data" id="Peraturan">' + (feature.properties['Peraturan'] !== null ? autolinker.link(feature.properties['Peraturan'].toLocaleString()) : '') + '</td>\
                 </tr>\
                 <tr>\
-                    <th scope="row">Provinsi</th>\
-                    <td class="visible-with-data" id="Provinsi">' + (feature.properties['Provinsi'] !== null ? autolinker.link(feature.properties['Provinsi'].toLocaleString()) : '') + '</td>\
-                </tr>\
-                <tr>\
-                    <th scope="row">Kabupaten</th>\
-                    <td class="visible-with-data" id="Kabupaten">' + (feature.properties['Kabupaten'] !== null ? autolinker.link(feature.properties['Kabupaten'].toLocaleString()) : '') + '</td>\
-                </tr>\
-                <tr>\
-                    <th scope="row">Luas</th>\
-                    <td class="visible-with-data" id="Luas">' + (feature.properties['Luas'] !== null ? autolinker.link(feature.properties['Luas'].toLocaleString()) : '') + '</td>\
+                    <td colspan="2">' + (feature.properties['Keterangan'] !== null ? autolinker.link(feature.properties['Keterangan'].toLocaleString()) : '') + '</td>\
                 </tr>\
             </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -294,17 +285,134 @@
         }
 
         function style_PIPPIB_20232_3_0(feature) {
-            return {
-                pane: 'pane_PIPPIB_20232_3',
-                opacity: 1,
-                color: 'rgba(0,0,0,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fillOpacity: 0,
-                interactive: true,
-            };
+            switch (String(feature.properties['Keterangan'])) {
+                case 'B':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(0,0,0,0.5)',
+                        interactive: true,
+                    };
+                case 'H':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(224,243,248,0.5)',
+                        interactive: true,
+                    };
+                case 'K':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(51,160,44,0.5)',
+                        interactive: true,
+                    };
+                case 'KSK':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(252,146,114,0.5)',
+                        interactive: true,
+                    };
+                case 'L':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(117,107,177,0.5)',
+                        interactive: true,
+                    };
+                case 'P':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(255,247,1,0.5)',
+                        interactive: true,
+                    };
+                case 'PAC':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(165,15,21,0.5)',
+                        interactive: true,
+                    };
+                case 'PR':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(204,75,178,0.5)',
+                        interactive: true,
+                    };
+                case 'S':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(217,95,14,0.5)',
+                        interactive: true,
+                    };
+                case 'SNG':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(255,255,255,0.5)',
+                        interactive: true,
+                    };
+                case 'T':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(252,146,114,0.5)',
+                        interactive: true,
+                    };
+                case 'TA':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(51,160,44,0.5)',
+                        interactive: true,
+                    };
+                case 'TPE':
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(0,0,0,0.5)',
+                        interactive: true,
+                    };
+                default:
+                    return {
+                        pane: 'pane_PIPPIB_20232_3',
+                        stroke: false,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(0,0,0,0.5)',
+                        interactive: true,
+                    };
+            }
         }
 
         map.createPane('pane_PIPPIB_20232_3');
@@ -322,27 +430,211 @@
         bounds_group.addLayer(layer_PIPPIB_20232_3);
         map.addLayer(layer_PIPPIB_20232_3);
 
-        function loadShapefile(file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var arrayBuffer = e.target.result;
-                shapefile.open(arrayBuffer).then(source => source.read().then(function log(result) {
-                    if (result.done) return;
-                    L.geoJSON(result.value).addTo(map);
-                    source.read().then(log);
-                }));
-            };
-            reader.readAsArrayBuffer(file);
-        }
+        map.addLayer(bounds_group);
+        setBounds();
 
-        document.getElementById('file-input').addEventListener('change', function(e) {
-            var file = e.target.files[0];
-            if (file) {
-                loadShapefile(file);
+        map.on('zoomend', function() {
+            var currentZoom = map.getZoom();
+            if (currentZoom > 22) {
+                map.removeLayer(layer_GoogleRoad_1);
+                map.addLayer(layer_GoogleHybrid_0);
+            } else {
+                map.removeLayer(layer_GoogleHybrid_0);
+                map.addLayer(layer_GoogleRoad_1);
             }
         });
 
-        setBounds();
+        var baseMaps = {
+            "Google Hybrid": layer_GoogleHybrid_0,
+            "Google Road": layer_GoogleRoad_1,
+        };
+
+        L.control.layers(baseMaps, null, {
+            collapsed: true
+        }).addTo(map);
+
+        var overlays = {
+            "<img src='legend/KH_SK_6624_2021_2.png' width='20' height='20'>&nbsp;KH_SK_6624_2021_2": layer_KH_SK_6624_2021_2,
+            "<img src='legend/PIPPIB_20232_3.png' width='20' height='20'>&nbsp;PIPPIB_20232_3": layer_PIPPIB_20232_3,
+        };
+
+        L.control.layers.tree(baseMaps, overlays, {
+            collapsed: true,
+        }).addTo(map);
+
+        var icons = L.Icon.extend({
+            options: {
+                iconSize: [27, 27],
+                iconAnchor: [13, 27],
+                popupAnchor: [1, -24]
+            }
+        });
+
+        function pop_Sign_4(feature, layer) {
+            var popupContent = '<table>\
+                <tr>\
+                    <td>' + (feature.properties['Description'] !== null ? autolinker.link(feature.properties['Description'].toLocaleString()) : '') + '</td>\
+                </tr>\
+            </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_Sign_4_0() {
+            return {
+                pane: 'pane_Sign_4',
+                radius: 0.3333333333333333,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            };
+        }
+
+        map.createPane('pane_Sign_4');
+        map.getPane('pane_Sign_4').style.zIndex = 404;
+        map.getPane('pane_Sign_4').style['mix-blend-mode'] = 'normal';
+        var layer_Sign_4 = new L.geoJson(json_Sign_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Sign_4',
+            layerName: 'layer_Sign_4',
+            pane: 'pane_Sign_4',
+            onEachFeature: pop_Sign_4,
+            pointToLayer: function(feature, latlng) {
+                var context = feature.properties['marker-symbol'];
+                if (context) {
+                    return L.marker(latlng, {
+                        icon: new icons({
+                            iconUrl: 'icons/' + context + '.png'
+                        })
+                    });
+                }
+            },
+            style: style_Sign_4_0,
+        });
+        bounds_group.addLayer(layer_Sign_4);
+        map.addLayer(layer_Sign_4);
+
+        map.addLayer(bounds_group);
+
+        var overlayMaps = {
+            "Sign_4": layer_Sign_4
+        };
+
+        L.control.layers(null, overlayMaps, {
+            collapsed: false
+        }).addTo(map);
+
+        var searchControl = new L.Control.Search({
+            layer: layer_KH_SK_6624_2021_2,
+            initial: false,
+            collapsed: true,
+            zoom: 18,
+            position: 'topright',
+            textPlaceholder: 'Search',
+            propertyName: 'Kawasan',
+        });
+        searchControl.on('search:locationfound', function(e) {
+            e.layer.openPopup();
+        });
+        map.addControl(searchControl);
+
+        var fileInput = document.getElementById('file-input');
+
+        fileInput.addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var zip = new JSZip();
+                var loadedFile = reader.result;
+                zip.loadAsync(loadedFile).then(function(zip) {
+                    for (var key in zip.files) {
+                        if (zip.files[key].dir == false) {
+                            if (key.endsWith('.geojson')) {
+                                zip.files[key].async('string').then(function(fileData) {
+                                    var newDataLayer = L.geoJson(JSON.parse(fileData));
+                                    newDataLayer.addTo(map);
+                                    map.fitBounds(newDataLayer.getBounds());
+                                });
+                            }
+                        }
+                    }
+                });
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        L.DomEvent.on(map, 'click', function() {
+            map.closePopup();
+        });
+
+        var LegendKHSK662420212_Legend = L.control({
+            position: 'bottomleft'
+        });
+
+        LegendKHSK662420212_Legend.onAdd = function(map) {
+            var div = L.DomUtil.create('div', 'LegendKHSK662420212');
+            div.innerHTML += '<img src="legend/KH_SK_6624_2021_2.png" alt="legend">';
+            return div;
+        };
+
+        LegendKHSK662420212_Legend.addTo(map);
+
+        var LegendPIPPIB202323_Legend = L.control({
+            position: 'bottomleft'
+        });
+
+        LegendPIPPIB202323_Legend.onAdd = function(map) {
+            var div = L.DomUtil.create('div', 'LegendPIPPIB202323');
+            div.innerHTML += '<img src="legend/PIPPIB_20232_3.png" alt="legend">';
+            return div;
+        };
+
+        LegendPIPPIB202323_Legend.addTo(map);
+
+        var Measure = L.control.measure({
+            position: 'topright',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+
+        Measure.addTo(map);
+
+        L.control.scale({
+            position: 'bottomleft',
+            maxWidth: 100,
+            metric: true,
+            imperial: false
+        }).addTo(map);
+
+        var googleRoadMutant = L.gridLayer.googleMutant({
+            type: 'roadmap' // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
+        });
+        map.addLayer(googleRoadMutant);
+
+        var miniMap = new L.Control.MiniMap(googleRoadMutant, {
+            toggleDisplay: true
+        }).addTo(map);
+
+        var lc = L.control.locate({
+            strings: {
+                title: "Show me where I am, yo!"
+            }
+        }).addTo(map);
+
+        L.easyPrint({
+            title: 'My awesome print button',
+            position: 'bottomleft',
+            elementsToHide: 'p, h2'
+        }).addTo(map);
     </script>
 </body>
 </html>
